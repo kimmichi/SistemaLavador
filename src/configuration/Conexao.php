@@ -12,8 +12,8 @@
         }
 
     }
-    $conexao= new Conexao;
-    $conexao->conexao();
+    //$conexao= new Conexao;
+    //$conexao->conexao();
 
 //$query = "INSERT INTO usuario (id_usuario, permissao, nome, usuario, senha) VALUES (null,?,?,?,?)";
 //$stmt = $conexao->prepare($query);

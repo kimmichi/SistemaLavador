@@ -2,6 +2,7 @@
     require_once "LoginController.php";
     require_once "HomeController.php";
     require_once "UsuarioController.php";
+    require_once "VendaController.php";
 
     class Roteador {
         public function processarpagina($controle){
@@ -24,7 +25,6 @@
                     $pagina = new HomeController;
                     $pagina->paginahome();
                     break;
-                
             } 
             switch($controle["acao"]){
                 case "logar":
@@ -38,6 +38,14 @@
                     $pagina = new UsuarioController;
                     $pagina->deslogar();
                     break;
+                case "venda";
+                    $pagina = new VendaController;
+                    $pagina->paginavenda();
+                    if(isset($_POST["ficha"],$_POST["placa"]) != ""){
+                        echo $_POST["ficha"];
+                    }
+                    break;
+                
                 
             }
 

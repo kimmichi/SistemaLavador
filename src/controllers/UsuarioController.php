@@ -9,7 +9,7 @@ E o controlador do sistema pois faz ligacoes entre aplicacoes do sistema -->
                 $autenticacao = new UsuarioDAO;
                 //$autenticacao->autenticacaoLogin($_POST["usuario"], $_POST["senha"]);
                 if ($autenticacao->autenticacaoLogin($_POST["usuario"], $_POST["senha"])==true){
-                    header("location: http://localhost/SistemaLavador/src/template/?pagina=home&acao=");
+                    header("location: ../template/?pagina=home&acao=");
                 }
                 /*if ($controle["usuario"] == "teste" && $controle["senha"] == "teste" ){
                 }*/
@@ -24,13 +24,13 @@ E o controlador do sistema pois faz ligacoes entre aplicacoes do sistema -->
 
         public function sessaofechada(){
             if(!isset($_SESSION["ID"])){
-                header("location: http://localhost/SistemaLavador/src/template/?pagina=login&acao=logar");
+                header("location: ../template/?pagina=login&acao=logar");
             }
         }
 
         public function sessaoaberta(){
             if(isset($_SESSION["ID"])){
-                header("location: http://localhost/SistemaLavador/src/template/?pagina=home&acao=");
+                header("location: ../template/?pagina=home&acao=");
             }
         }
 
