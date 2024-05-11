@@ -1,4 +1,3 @@
-<!-- Conexao com o Banco de Dados --> 
 <?php
     class Conexao extends mysqli {
         public function conexaoMysql($host, $user, $pass, $db, $port, $socket, $charset) {

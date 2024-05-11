@@ -40,10 +40,13 @@
                     break;
                 case "venda";
                     $pagina = new VendaController;
-                    $pagina->paginavenda();
-                    if(isset($_POST["ficha"],$_POST["placa"]) != ""){
-                        echo $_POST["ficha"];
+                    $pagina->paginavenda($_POST);
+                    if(isset($_POST) != ""){
+                        $pagina->vendalavada($_POST);
                     }
+                    echo "-----------------------------------------------------------------------------------------------------------------------------";
+
+
                     break;
                 
                 

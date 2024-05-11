@@ -93,7 +93,7 @@ PRIMARY KEY (id_venda_lavada, idusuario, idpagamento, idpreco)
 INSERT INTO venda_lavada (id_venda_lavada, ficha, placa, empresa, valor, num_nota,descricao, idusuario, idpagamento, idpreco)
 VALUES (NULL,10, "ABC-8132", "FERNANDES AMADEU", 15.00,"283172",NULL,1,5,1);
 
-SELECT nome, usuario, senha FROM usuario;
+
 SELECT id_usuario, usuario, senha FROM usuario 
 where usuario = "Sirlaine" and senha = "SENHA";
 -- ficha, placa, empresa, valor, num_nota, descricao, nome, pagamento,preco
@@ -109,14 +109,12 @@ inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.i
 inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
 inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo;
 
-select * from usuario where nome LIKE "%Sir%";
+
 SELECT * from venda_lavada;
 
 show tables;
 select * from venda_lavada ;
 select * from pagamento ;
 select * from usuario ;
-select * from tabela_preco_lavada ;
-
 -- delete from veiculo where  id_veiculo = 4;
 -- DROP DATABASE sistemalavador;
