@@ -1,7 +1,7 @@
 
 <style>
 
-input, select,tr {
+input, select,.tableavenda{
   display: block;
 }
 td{
@@ -9,8 +9,28 @@ td{
 }
 </style>
 
-<form method = "post">
-    <table border = 0>
+<script>
+
+function showHint() {
+    var str = document.getElementById('txt1').value;
+    var str2 = document.getElementById('txt2').value;
+    if (str.length == 0 || str2.length == 0) {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("txtHint").value =
+            this.responseText;
+        }
+        xhttp.open("get", "../controllers/PreLavadaController.php?teste="+str+"&teste1="+str2);
+        xhttp.send();   
+    }
+}
+</script>
+
+<form method = "post" id="formvenda" action="../index.php/?controle=venda&acao=cadastrarvenda">
+    <table border = 0 class = "tableavenda">
         <tr>
             <td >
                 <label>Ficha:</label>
@@ -103,22 +123,3 @@ td{
         </tr>
     </table>
 </form>
-<script>
-
-function showHint() {
-    var str = document.getElementById('txt1').value;
-    var str2 = document.getElementById('txt2').value;
-    if (str.length == 0 || str2.length == 0) {
-        document.getElementById("txtHint").innerHTML = "";
-        return;
-    } else {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onload = function() {
-            document.getElementById("txtHint").value =
-            this.responseText;
-        }
-        xhttp.open("get", "../controllers/proc_pesq_user.php?teste="+str+"&teste1="+str2);
-        xhttp.send();   
-    }
-}
-</script>

@@ -3,7 +3,7 @@
 
 class HomeController {
     public function paginahome(){
-        include "../views/home.php";
+        include "views/home.php";
     }
 }
 

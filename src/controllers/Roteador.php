@@ -1,57 +1,25 @@
 <?php
-    require_once "LoginController.php";
-    require_once "HomeController.php";
-    require_once "UsuarioController.php";
     require_once "VendaController.php";
+    require_once "PrincipalControle.php";
 
     class Roteador {
-        public function processarpagina($controle){
-            
-            if (!isset($_GET["pagina"]) || !isset($_SESSION["ID"])){
-                $controle["pagina"]="login";
-                $controle["acao"]="logar";
-                //echo $_SESSION["ID"];
+        public function processarpagina($controle,$acao){
+            if (!isset($_GET["controle"])){
+                header("location: ../src/views/login.php");
             }
-            switch($controle["pagina"]){
-                case "login":
-                    $sessao = new UsuarioController;
-                    $sessao->sessaoaberta();
-                    $pagina = new LoginController;
-                    $pagina->paginalogin();
-                    break;
-                case "home";
-                    $sessao = new UsuarioController;
-                    $sessao->sessaofechada();
-                    $pagina = new HomeController;
-                    $pagina->paginahome();
-                    break;
-            } 
-            switch($controle["acao"]){
-                case "logar":
-                    //print_r($_POST);
-                    if(isset($_POST) != ""){
-                        $pagina = new UsuarioController;
-                        $pagina->login($_POST);
-                    }
-                    break;
-                case "deslogar";
-                    $pagina = new UsuarioController;
-                    $pagina->deslogar();
+            switch($controle){
+                case "principal";
+                    $controle = new PrincipalControle;
+                    $controle->processar($acao);
                     break;
                 case "venda";
-                    $pagina = new VendaController;
-                    $pagina->paginavenda($_POST);
-                    if(isset($_POST) != ""){
-                        $pagina->vendalavada($_POST);
-                    }
-                    echo "-----------------------------------------------------------------------------------------------------------------------------";
-
-
+                    $sessao = new PrincipalControle;
+                    $sessao->sessaofechada();
+                    $controle = new VendaController;
+                    $controle->processar($acao);
                     break;
-                
-                
-            }
 
+            }
         }
     }
 

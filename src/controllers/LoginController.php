@@ -1,7 +1,7 @@
 <?php
     class LoginController {
         public function paginalogin(){
-            include "../views/login.php";
+            include "views/login.php";
         }
     }
 

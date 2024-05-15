@@ -1,6 +1,6 @@
 <!-- Consultas / Regras de Negocio (verificacao)-->
 <?php
-    require_once "../configuration/Conexao.php";
+    require_once "configuration/Conexao.php";
     
     class UsuarioDAO {
         public function autenticacaoLogin($usuario, $senha){

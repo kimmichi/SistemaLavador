@@ -1,11 +1,30 @@
 <?php
 
-require_once "../models/VendaDAO.php";
+require_once "models/VendaDAO.php";
 class VendaController {
+    public function processar($acao){
+        switch ($acao){
+            case "cadastrarvenda";
+                if(isset($_POST) != ""){
+                    $this->vendalavada($_POST);
+
+                }
+                break;
+            case "cadastrovenda";
+                include "template/menu.php";
+                $this->mostrarpaginacadastrovenda();
+                break;
+
+        }
+    }
     public function paginavenda(){
-        include "../views/venda.php";
+        include "views/venda.php";
     }
 
+    public function listarvenda(){
+        $venda = new VendaDAO;
+        $venda->listarvendalavadaDAO();
+    }
 
     public function vendalavada($venda_lavada){
         if(isset($_POST["ficha"]) != ""){
@@ -19,28 +38,14 @@ class VendaController {
             $venda->getEmpresa($venda_lavada["empresa"]);
             $venda->getNum_nota($venda_lavada["num_nota"]);
             $venda->getAnotacao($venda_lavada["anotacao"]);
-            $venda->vendalavada();
-            /*echo $venda->setFicha();
-            echo "<br>";
-            echo $venda->setVeiculo();
-            echo "<br>";
-            echo $venda->setLavada();
-            echo "<br>";
-            echo $venda->setValor();
-            echo "<br>";
-            echo $venda->setIdpagamento();
-            echo "<br>";
-            echo $venda->setPlaca();
-            echo "<br>";
-            echo $venda->setEmpresa();
-            echo "<br>";
-            echo $venda->setNum_nota();
-            echo "<br>";
-            echo $venda->setAnotacao();
-            echo "<br>";*/ 
+            $venda->vendalavadaDAO();
         }
+
             
-            
+    }
+
+    public function mostrarpaginacadastrovenda(){
+        include "views/venda.php";    
     }
         
 }

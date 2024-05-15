@@ -1,8 +1,8 @@
 <body>
-    <form method = "post">
+    <form method = "post" action="../index.php/?controle=principal&acao=logar">
         <table border ="2">
             <tr>
-                <td colspan = "2" > <center><img src="../img/logopratao.png" height = 100 ></center></td>
+                <td colspan = "2" > <center><img src="../views/img/logopratao.png" height = 100 ></center></td>
             </tr>
             <tr>
                 <td> Usuario </td>

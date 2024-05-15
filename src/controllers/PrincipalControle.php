@@ -1,15 +1,34 @@
-<!-- e a ponte entre view e model, view solicita controller solicita para model. 
-E o controlador do sistema pois faz ligacoes entre aplicacoes do sistema -->
-
 <?php
-    require_once "../models/UsuarioDAO.php";
-    class UsuarioController {
-        public function login($controle){
+    require_once "models/UsuarioDAO.php";
+    class PrincipalControle{
+        public function processar($acao){
+            switch($acao){
+                case"logar";
+                    $this->login();
+                    break;                
+                case"login";
+                    include "views/login.php";
+                    break;
+                case "deslogar":
+                    $this->deslogar();
+                    break;
+            }
+
+        }
+
+
+
+
+
+
+
+        
+        public function login(){
             if(isset($_POST["usuario"]) != "" && isset($_POST["senha"]) != ""){
                 $autenticacao = new UsuarioDAO;
                 //$autenticacao->autenticacaoLogin($_POST["usuario"], $_POST["senha"]);
                 if ($autenticacao->autenticacaoLogin($_POST["usuario"], $_POST["senha"])==true){
-                    header("location: ../template/?pagina=home&acao=");
+                    header("location: ../views/home.php");
                 }
                 /*if ($controle["usuario"] == "teste" && $controle["senha"] == "teste" ){
                 }*/
@@ -17,20 +36,22 @@ E o controlador do sistema pois faz ligacoes entre aplicacoes do sistema -->
         }
 
         public function deslogar(){
-            if(session_start()){
+            if(isset($_SESSION["ID"])){
                 session_destroy();
+                header("location: ../index.php");
             }
         }
 
         public function sessaofechada(){
             if(!isset($_SESSION["ID"])){
-                header("location: ../template/?pagina=login&acao=logar");
+                header("location: ../index.php");
+
             }
         }
 
         public function sessaoaberta(){
             if(isset($_SESSION["ID"])){
-                header("location: ../template/?pagina=home&acao=");
+                header("location: ../views/login.php");
             }
         }
 
