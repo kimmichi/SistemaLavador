@@ -7,10 +7,15 @@
                     $this->login();
                     break;                
                 case"login";
-                    include "views/login.php";
+                    $this->mostarpaginalogin();
+                    //include "views/login.php";
                     break;
-                case "deslogar":
+                case "deslogar";
                     $this->deslogar();
+                    break;
+                case "home";
+                    $this->sessaofechada();
+                    $this->mostrarpaginainicial();
                     break;
             }
 
@@ -28,7 +33,7 @@
                 $autenticacao = new UsuarioDAO;
                 //$autenticacao->autenticacaoLogin($_POST["usuario"], $_POST["senha"]);
                 if ($autenticacao->autenticacaoLogin($_POST["usuario"], $_POST["senha"])==true){
-                    header("location: ../views/home.php");
+                    $this->mostrarpaginainicial();
                 }
                 /*if ($controle["usuario"] == "teste" && $controle["senha"] == "teste" ){
                 }*/
@@ -55,5 +60,13 @@
             }
         }
 
+        public function mostarpaginalogin(){
+            include "views/login.php";
+        }
+
+        public function mostrarpaginainicial(){
+            include "template/menu.php";
+            include "views/home.php";
+        }
     }
 ?>

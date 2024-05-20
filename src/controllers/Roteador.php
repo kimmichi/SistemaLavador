@@ -18,7 +18,12 @@
                     $controle = new VendaController;
                     $controle->processar($acao);
                     break;
-
+                case "venda";
+                    $sessao = new PrincipalControle;
+                    $sessao->sessaofechada();
+                    $controle = new VendaController;
+                    $controle->processar($acao);
+                    break;
             }
         }
     }
