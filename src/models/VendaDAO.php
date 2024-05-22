@@ -125,7 +125,19 @@
             inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.idpreco
             inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
             inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo;";
-            echo "<table border='1'>";
+            echo "<table border='1'>
+            <tr>
+                <td>Ficha</td>
+                <td>Placa</td>
+                <td>Veiculo</td>
+                <td>Lavada</td>
+                <td>Empresa</td>
+                <td>Valor Pago</td>
+                <td>Nota</td>
+                <td>Usuario</td>
+                <td>Tipo de Pagamento</td>
+                <td>Valor da tabela</td>
+            </tr>";
             if($result = $conexao->query($query)){
                 while ($row = $result->fetch_row()) {
                     printf("<tr>
@@ -133,12 +145,13 @@
                     <td>%s</td>
                     <td>%s</td>
                     <td>%s</td>
-                    <td>%s</td>                           <td>%s</td> 
+                    <td>%s</td>                           
+                    <td>%s</td> 
                     <td>%s</td>
                     <td>%s</td>
                     <td>%s</td>
                     <td>%s</td>
-                            </tr>", $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
+                        </tr>", $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
                }
             }
             echo "</table>";

@@ -9,25 +9,6 @@ td{
 }
 </style>
 
-<script>
-
-function showHint() {
-    var str = document.getElementById('txt1').value;
-    var str2 = document.getElementById('txt2').value;
-    if (str.length == 0 || str2.length == 0) {
-        document.getElementById("txtHint").innerHTML = "";
-        return;
-    } else {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onload = function() {
-            document.getElementById("txtHint").value =
-            this.responseText;
-        }
-        xhttp.open("get", "../controllers/PreLavadaController.php?teste="+str+"&teste1="+str2);
-        xhttp.send();   
-    }
-}
-</script>
 
 <form method = "post" id="formvenda" action="../index.php/?controle=venda&acao=cadastrarvenda">
     <table border = 0 class = "tableavenda">
@@ -123,3 +104,45 @@ function showHint() {
         </tr>
     </table>
 </form>
+
+<script>
+
+function showHint() {
+    var str = document.getElementById('txt1').value;
+    var str2 = document.getElementById('txt2').value;
+    if (str.length == 0 || str2.length == 0) {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("txtHint").value =
+            this.responseText;
+        }
+        xhttp.open("get", "../controllers/PreLavadaController.php?teste="+str+"&teste1="+str2);
+        xhttp.send();   
+    }
+}
+
+
+        document.getElementById('txtHint').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, ''); // Remove qualquer caractere que não seja número
+
+            // Remove os zeros à esquerda
+            value = value.replace(/^0+/, '');
+
+            const length = value.length;
+
+            // Adiciona zeros à esquerda para garantir que haja pelo menos dois dígitos
+            value = value.padStart(2, '0');
+
+            // Separa o valor em centavos e o restante
+            const cents = value.slice(0, -2);
+            const rest = value.slice(-2);
+
+            // Formata o valor com duas casas decimais
+            value = `${cents}.${rest}`;
+
+            this.value = value;
+        });
+</script>

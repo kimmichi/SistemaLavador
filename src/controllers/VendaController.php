@@ -14,6 +14,10 @@ class VendaController {
                 include "template/menu.php";
                 $this->mostrarpaginacadastrovenda();
                 break;
+            case "listarvenda";
+                include "template/menu.php";
+                $this->listarvenda();
+                break;
 
         }
     }
