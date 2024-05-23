@@ -18,6 +18,13 @@ class VendaController {
                 include "template/menu.php";
                 $this->listarvenda();
                 break;
+            case "editarnota";
+                if(isset($_POST) != "" && $_POST["idlavada"] != "" && isset($_POST["n_nota"]) ){
+                    $this->editarnotalavada($_POST["idlavada"], $_POST["n_nota"]);
+                }else{
+                    header("location: ../index.php/?controle=venda&acao=listarvenda");
+                }
+                break;
 
         }
     }
@@ -50,6 +57,12 @@ class VendaController {
 
     public function mostrarpaginacadastrovenda(){
         include "views/venda.php";    
+    }
+
+    public function editarnotalavada($idvendalavada, $num_nota){
+        $editar = new VendaDAO;
+        $editar->editarnota($idvendalavada, $num_nota);
+
     }
         
 }

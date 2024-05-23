@@ -116,15 +116,16 @@
         }
 
 
-        public function listarvendalavadaDAO(){
-            $conexao= new Conexao;
+        public function listarvendalavadaDAO() {
+            $conexao = new Conexao;
             $conexao->conexao();
-            $query = "SELECT ficha, placa, veiculo, lavada, empresa, valor, num_nota, nome, pagamento, preco FROM venda_lavada
-            inner join usuario on usuario.id_usuario = venda_lavada.idusuario
-            inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
-            inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.idpreco
-            inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
-            inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo;";
+            $query = "SELECT id_venda_lavada, ficha, placa, veiculo, lavada, empresa, valor, num_nota, nome, pagamento, preco FROM venda_lavada
+                inner join usuario on usuario.id_usuario = venda_lavada.idusuario
+                inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
+                inner join tabela_preco_lavada on tabela_preco_lavada.id_preco = venda_lavada.idpreco
+                inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
+                inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo;";
+            
             echo "<table border='1'>
             <tr>
                 <td>Ficha</td>
@@ -137,25 +138,54 @@
                 <td>Usuario</td>
                 <td>Tipo de Pagamento</td>
                 <td>Valor da tabela</td>
+                <td>Editar Nota</td>
             </tr>";
-            if($result = $conexao->query($query)){
+            
+            if ($result = $conexao->query($query)) {
+                $index = 0;
                 while ($row = $result->fetch_row()) {
-                    printf("<tr>
-                    <td>%s</td> 
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>                           
-                    <td>%s</td> 
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                        </tr>", $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9]);
-               }
+                    printf("<form method='post' action='../index.php/?controle=venda&acao=editarnota'><tr>
+                        <input type='hidden' name='idlavada' value='%s'>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td><input type='text' id='nota%d' value ='%s' name='n_nota'disabled></td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td><input type='checkbox' onchange='habilitarDesabilitarInput(%d)'> <input type='submit'></td>
+                    </tr></form>", $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $index, $row[7], $row[8], $row[9], $row[10], $index);
+                    $index++;
+                }
             }
+            
             echo "</table>";
+            ?>
+            <script>
+                function habilitarDesabilitarInput(index) {
+                    var input = document.getElementById('nota' + index);
+                    input.disabled = !input.disabled;
+                }
+            </script>
+            <?php
+        }
 
+        public function editarnota($idvendalavada, $num_nota){
+            echo $idvendalavada."<br>";
+            echo $num_nota;
+            $conexao = new Conexao;
+            $conexao->conexao();
+            $query = "UPDATE venda_lavada SET num_nota = ? where id_venda_lavada = ?;";
+            $stmt = $conexao->prepare($query);
+            $stmt->bind_param("si", $num_nota, $idvendalavada);
+            if($stmt->execute()){
+                header("location: ../index.php/?controle=venda&acao=listarvenda");
+            }
+            
+            $stmt->close();
         }
 
     }
