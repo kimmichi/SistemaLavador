@@ -18,15 +18,28 @@
         <option value="3">3</option>
         <option value="4">4</option>
     </select>
-
+    <select  id="txt2" .value onmouseup="showHint()">
+        <option value = "" selected>---------------------------------</option>
+        <option value = "1">COMPLETA COM CERA</option>
+        <option value = "2">COMPLETA SEM CERA</option>
+        <option value = "3">SOMENTE EXETERNA</option>
+        <option value = "4">SOMENTE INTERNA</option>
+    </select>
+</p>
     <script>
+   
         
-            const valorDigitado = 3;
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+                document.getElementById('opcaoSelect').value =
+                +this.responseText + 1;
+            }
+            xhttp.open("get", "buscabanco.php");
+            xhttp.send();   
+            
 
             // Garante que o valor digitado esteja entre 0 e 4
-            if (valorDigitado >= 0 && valorDigitado <= 4) {
-                document.getElementById('opcaoSelect').value = valorDigitado.toString();
-            }
+
 
     </script>
 </body>

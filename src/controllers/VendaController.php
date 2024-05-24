@@ -25,6 +25,9 @@ class VendaController {
                     header("location: ../index.php/?controle=venda&acao=listarvenda");
                 }
                 break;
+            case "excluirlavada";
+                $this->excluirvendalavada($_GET['id']);
+                break;
 
         }
     }
@@ -62,6 +65,11 @@ class VendaController {
     public function editarnotalavada($idvendalavada, $num_nota){
         $editar = new VendaDAO;
         $editar->editarnota($idvendalavada, $num_nota);
+
+    }
+    public function excluirvendalavada($id){
+        $excluir = new VendaDAO;
+        $excluir->excluirvendalavadaDAO($id);
 
     }
         

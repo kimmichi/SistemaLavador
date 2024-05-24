@@ -124,7 +124,7 @@
                 inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
                 inner join tabela_preco_lavada on tabela_preco_lavada.id_preco = venda_lavada.idpreco
                 inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
-                inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo;";
+                inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo ORDER BY(ficha);";
             
             echo "<table border='1'>
             <tr>
@@ -139,13 +139,15 @@
                 <td>Tipo de Pagamento</td>
                 <td>Valor da tabela</td>
                 <td>Editar Nota</td>
+                <td>Excluir</td>
+                <td>Editar</td>
             </tr>";
             
             if ($result = $conexao->query($query)) {
                 $index = 0;
                 while ($row = $result->fetch_row()) {
                     printf("<form method='post' action='../index.php/?controle=venda&acao=editarnota'><tr>
-                        <input type='hidden' name='idlavada' value='%s'>
+                        <input type='hidden' name='idlavada' value='%d'>
                         <td>%s</td>
                         <td>%s</td>
                         <td>%s</td>
@@ -156,8 +158,10 @@
                         <td>%s</td>
                         <td>%s</td>
                         <td>%s</td>
-                        <td><input type='checkbox' onchange='habilitarDesabilitarInput(%d)'> <input type='submit'></td>
-                    </tr></form>", $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $index, $row[7], $row[8], $row[9], $row[10], $index);
+                        <td><input type='checkbox' onchange='habilitarDesabilitarInput(%d)'> <input type='submit' value='Salvar'></td>
+                        <td><a href='../index.php/?controle=venda&acao=excluirlavada&id=%d'>Excluir</a></td>
+                        <td><a href='../index.php/?controle=venda&acao=editarlavada&id=%d'>Editar</a></td>
+                    </tr></form>", $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $index, $row[7], $row[8], $row[9], $row[10], $index,$row[0],$row[0]);
                     $index++;
                 }
             }
@@ -185,6 +189,18 @@
                 header("location: ../index.php/?controle=venda&acao=listarvenda");
             }
             
+            $stmt->close();
+        }
+
+        public function excluirvendalavadaDAO($id){
+            $conexao = new Conexao;
+            $conexao->conexao();
+            $query = "DELETE FROM venda_lavada WHERE id_venda_lavada = ?;";
+            $stmt = $conexao->prepare($query);
+            $stmt->bind_param("i", $id);
+            if($stmt->execute()){
+                header("location: ../index.php/?controle=venda&acao=listarvenda");
+            }
             $stmt->close();
         }
 

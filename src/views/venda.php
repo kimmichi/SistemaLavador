@@ -9,14 +9,13 @@ td{
 }
 </style>
 
-
 <form method = "post" id="formvenda" action="../index.php/?controle=venda&acao=cadastrarvenda">
     <table border = 0 class = "tableavenda">
         <tr>
             <td >
                 <label>Ficha:</label>
-                <select name="ficha">
-                    <option value = "" selected>---</option>
+                <select id = "idficha" name="ficha">
+                    <option value = "">---</option>
                     <option value = "1" >1</option>
                     <option value = "2">2</option>
                     <option value = "3">3</option>
@@ -145,4 +144,13 @@ function showHint() {
 
             this.value = value;
         });
+
+        const xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+                document.getElementById('idficha').value =
+                +this.responseText + 1;
+                console.log(+this.responseText + 1);
+            }
+            xhttp.open("get", "../views/buscabanco.php");
+            xhttp.send();  
 </script>
