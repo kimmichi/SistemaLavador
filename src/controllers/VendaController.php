@@ -28,11 +28,22 @@ class VendaController {
             case "excluirlavada";
                 $this->excluirvendalavada($_GET['id']);
                 break;
+            case "edicaolavada";
+                $this->edicaovendalavada($_GET['id']);
+                $this->paginaeditarvenda();
+                break;
+            case "editarlavada";
+                $this->editarvendalavada($_POST);
+                break;
 
         }
     }
     public function paginavenda(){
         include "views/venda.php";
+    }
+    
+    public function paginaeditarvenda(){
+        include "views/editarvenda.php";
     }
 
     public function listarvenda(){
@@ -71,6 +82,30 @@ class VendaController {
         $excluir = new VendaDAO;
         $excluir->excluirvendalavadaDAO($id);
 
+    }
+    public function edicaovendalavada($id){
+        $editar = new VendaDAO;
+        $_SESSION["editarvenda"] = $editar->edicaovendalavadaDAO($id);
+        //print_r($_SESSION["editarvenda"]);
+        
+    }
+    public function editarvendalavada($venda_lavada){
+        
+        if(isset($_POST["editarficha"]) != ""){
+            $venda = new VendaDAO;
+            $venda->getId_venda_lavada($venda_lavada["id"]);
+            $venda->getFicha($venda_lavada["editarficha"]);
+            $venda->getVeiculo($venda_lavada["editarveiculo"]);
+            $venda->getLavada($venda_lavada["editarlavada"]);
+            $venda->getValor($venda_lavada["editarvalor"]);
+            $venda->getIdpagamento($venda_lavada["editarpagamento"]);
+            $venda->getPlaca($venda_lavada["editarplaca"]);
+            $venda->getEmpresa($venda_lavada["editarempresa"]);
+            $venda->getNum_nota($venda_lavada["editarnum_nota"]);
+            $venda->getAnotacao($venda_lavada["editaranotacao"]);
+            $venda->editarvendalavadaDAO();
+            var_dump($venda_lavada);
+        }
     }
         
 }

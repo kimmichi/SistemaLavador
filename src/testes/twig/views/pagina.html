@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% set VARIAVELTWIG2 = 'Essavariavel foi criada pelo twig e esta na pagina.php'%}
+
+    <div>
+        <h1>{{VARIAVELTWIG}}</h1>
+        <h1>{{VARIAVELTWIG1}}</h1>
+        <h1>{{VARIAVELTWIG2}}</h1>
+    
+    </div>
+
+    {% for arrayvariavel in CLIENTES %}
+        <p>ficha: {{ arrayvariavel.ficha }}</p>
+        <p>veiculo: {{ arrayvariavel.veiculo }}</p>
+        <p>lavada: {{ arrayvariavel.lavada}}</p>
+        <hr>
+    {% endfor %}
+
+    
+    {% set SOMA = (10+2)%}
+    <p>Soma feita no twig {{SOMA}}</p>
+    <hr>
+
+</body>
+</html>
