@@ -18,11 +18,11 @@
             $stmt = $conexao->prepare($query);
             $stmt->bind_param("ss",$usuario,$senha);
             $stmt->execute();
-            $stmt->bind_result($id_usuario, $usuario, $senha, $nome);
+            $stmt->bind_result($id_usuario, $usuarioban, $senhaban, $nome);
             while ($stmt->fetch()) {
                     $_SESSION["ID"]=$id_usuario;
-                    $usu = $usuario;
-                    $sen = $senha; 
+                    $usu = $usuarioban;
+                    $sen = $senhaban; 
                     $_SESSION["nome"]=$nome;
 
             }
@@ -31,12 +31,11 @@
             /*echo $_SESSION["ID"];
             echo $usu;
             echo $sen;*/
-            if(isset($usu) && isset($sen)){
-                if ($usu == $usuario && $sen == $senha){
+            if(isset($usu) && isset($sen) && ($usu === $usuario && $sen === $senha)){
                     //echo "Acesso permitido";
                     //return true;
                     header('location:../index.php/?controle=principal&acao=home');
-                }
+
             }else{
                 echo"Senha ou usuario incorreto";
             }

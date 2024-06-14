@@ -151,6 +151,6 @@ function showHint() {
                 +this.responseText + 1;
                 console.log(+this.responseText + 1);
             }
-            xhttp.open("get", "../views/buscabanco.php");
+            xhttp.open("get", "../controllers/buscabanco.php");
             xhttp.send();  
 </script>
