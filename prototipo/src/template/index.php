@@ -1,5 +1,5 @@
 <?php
-    require_once '../testes/twig/vendor/autoload.php';
+    require_once '../configuration/composer/vendor/autoload.php';
     $loader = new \Twig\Loader\FilesystemLoader('../views');
     $twig = new \Twig\Environment($loader, [
         'cache' => '../template/cache',

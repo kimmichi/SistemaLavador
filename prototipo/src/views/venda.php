@@ -47,7 +47,7 @@ td{
                     <option value = "" selected>---------------------------------</option>
                     <option value = "1">COMPLETA COM CERA</option>
                     <option value = "2">COMPLETA SEM CERA</option>
-                    <option value = "3">SOMENTE EXETERNA</option>
+                    <option value = "3">SOMENTE EXTERNA</option>
                     <option value = "4">SOMENTE INTERNA</option>
                 </select>
             </td>

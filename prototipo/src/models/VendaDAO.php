@@ -32,7 +32,12 @@
             $this->lavada = $lavada;
         }
         public function getEmpresa($empresa){
-            $this->empresa = $empresa;
+            if($empresa == "" || $empresa == " " || $empresa == null){
+                $this->empresa = "CONSUMIDOR";
+            }else{
+                $this->empresa = $empresa;
+            }
+            //$this->empresa = $empresa;
         }
         public function getDesconto($desconto){
             $this->desconto = $desconto;
@@ -144,53 +149,97 @@
             //$stmt->bind_param("")
             $stmt->execute();
             $stmt->bind_result($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6],$row[7],$row[8],$row[9]);
-            echo "<table border='1' class='table table-striped table-bordered'>
-            <tr>
-                <th>Ficha</th>
-                <th>Placa</th>
-                <th>Veiculo</th>
-                <th>Lavada</th>
-                <th>Empresa</th>
-                <th>Usuario</th>
-                <th>Tipo de Pagamento</th>
-                <th>Valor</th>
-                <th>Editar Nota</th>
-                <th>Excluir</th>
-                <th>Editar</th>
-            </tr>";
+            echo "
+            <div id='myModal' class='modal'>
+                <div class='modal-content'>
+                    <p>Você deseja excluir o registro?</p>
+                    <button class='btn btn-primary mb-2' onclick='handleOk()'>SIM</button>
+                    <button class='btn btn-danger mb-2' onclick='handleCancel()'>NAO</button>
+                </div>
+            </div>
+
+            <table border='1' class='table table-striped table-bordered'>
+                <tr>
+                    <th>Ficha</th>
+                    <th>Placa</th>
+                    <th>Veiculo</th>
+                    <th>Lavada</th>
+                    <th>Empresa</th>
+                    <th>Usuario</th>
+                    <th>Tipo de Pagamento</th>
+                    <th>Valor</th>
+                    <th>Editar Nota</th>
+                    <th>Excluir</th>
+                    <th>Editar</th>
+                </tr>";
             
             
             $index = 0;
             while ($stmt->fetch()) {
-                printf("<form method='post' action='../index.php/?controle=venda&acao=editarnota'><tr>
-                    <input type='hidden' name='idlavada' value='%d'>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>%s</td>
-                    <td>R$ %s</td>
-                    <td>
-                        <input type='checkbox' onchange='habilitarDesabilitarInput(%d)'> 
-                        <input type='text' id='nota%d' value ='%s' name='n_nota'  disabled>
-                        <input type='submit' value='Salvar'>
-                    </td>
-                    <td><a href='../index.php/?controle=venda&acao=excluirlavada&id=%d'><i class='fas fa-trash'></i></a></td>
-                    <td><a href='../index.php/?controle=venda&acao=edicaolavada&id=%d'><i class='fas fa-edit'></i></a></td>
-                </tr></form>", $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6],$row[7],$row[8], $index, $index, $row[9],$row[0],$row[0]);
+                printf("
+                <form method='post' action='../index.php/?controle=venda&acao=editarnota'>
+                    <tr>
+                        <input type='hidden' name='idlavada' value='%d'>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>R$ %s</td>
+                        <td>
+                            <input type='checkbox' onchange='habilitarDesabilitarInput(%d)'> 
+                            <input type='text' id='nota%d' value ='%s' name='n_nota'  disabled>
+                            <input type='submit' value='Salvar'>
+                        </td>
+                        <td><a class = 'btn btn-outline-danger btn-rounded' onclick='confirmation(%d)'><i class='fas fa-trash' id='dump'></i></a></td>
+                        <td><a href='../index.php/?controle=venda&acao=edicaolavada&id=%d' class='btn btn-outline-info btn-rounded'><i class='fas fa-edit'></i></a></td>
+                    </tr>
+                </form>", 
+                 $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6],$row[7],$row[8], $index, $index, $row[9],$row[0],$row[0]);
                 $index++;
             }
-            
+            /*<a href='../index.php/?controle=venda&acao=excluirlavada&id=%d'><i class='fas fa-trash'></i></a>*/
             
             echo "</table>";
+            $stmt->close();
             ?>
             <script>
                 function habilitarDesabilitarInput(index) {
                     var input = document.getElementById('nota' + index);
                     input.disabled = !input.disabled;
                 }
+
+                //---------------------ALERT----------------------------
+                // Pega o modal
+                var modal = document.getElementById("myModal");
+
+                // Pega o botão que abre o modal
+                //var btn = document.getElementById("dump");
+
+                // Função para abrir o modal
+                function confirmation(cod) {
+                    registro = cod;
+                    modal.style.display = "block";
+                }
+                // Função para o botão OK
+                function handleOk() {
+                    window.location.href = '../index.php/?controle=venda&acao=excluirlavada&id='+registro; // Redireciona para home.php
+                }
+
+                // Função para o botão Cancel
+                function handleCancel() {
+                    modal.style.display = "none"; // Fecha o modal
+                }
+
+                // Fechar o modal se o usuário clicar fora dele
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+}
+
             </script>
             <?php
         }
@@ -302,6 +351,119 @@
                 header("location: ../index.php/?controle=venda&acao=listarvenda");
             }
             
+            $stmt->close();
+        }
+
+        public function listarapagadoslavadaDAO(){
+            $conexao = new Conexao;
+            $conexao->conexao();
+            /*$query = "SELECT id_venda_lavada, ficha, placa, veiculo, lavada, empresa, valor, num_nota, nome, pagamento FROM venda_lavada
+                inner join usuario on usuario.id_usuario = venda_lavada.idusuario
+                inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
+                inner join tabela_preco_lavada on tabela_preco_lavada.id_preco = venda_lavada.idpreco
+                inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
+                inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo ORDER BY(ficha);";*/
+            $dt_atual = date('Y/m/d');
+            $query = "SELECT id_venda_lavada, ficha, placa, veiculo, lavada, empresa, nome, pagamento, valor, num_nota FROM venda_lavada
+            INNER JOIN usuario ON usuario.id_usuario = venda_lavada.idusuario
+            INNER JOIN pagamento ON pagamento.id_pagamento = venda_lavada.idpagamento
+            INNER JOIN tabela_preco_lavada ON tabela_preco_lavada.id_preco =  venda_lavada.idpreco
+            INNER JOIN lavada ON lavada.id_lavada = tabela_preco_lavada.idlavada
+            INNER JOIN veiculo ON veiculo.id_veiculo = tabela_preco_lavada.idveiculo WHERE situacao = 0  AND dt_venda BETWEEN '$dt_atual 00:00:00' AND '$dt_atual 23:59:59' ORDER BY(ficha);";
+            $stmt = $conexao->prepare($query);
+            //$stmt->bind_param("")
+            $stmt->execute();
+            $stmt->bind_result($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6],$row[7],$row[8],$row[9]);
+            echo "
+            <div id='myModal' class='modal'>
+                <div class='modal-content'>
+                    <p>Você deseja restaurar o registro?</p>
+                    <button class='btn btn-primary mb-2' onclick='handleOk()'>SIM</button>
+                    <button class='btn btn-danger mb-2' onclick='handleCancel()'>NAO</button>
+                </div>
+            </div>
+
+            <table border='1' class='table table-striped table-bordered'>
+                <tr>
+                    <th>Ficha</th>
+                    <th>Placa</th>
+                    <th>Veiculo</th>
+                    <th>Lavada</th>
+                    <th>Empresa</th>
+                    <th>Usuario</th>
+                    <th>Tipo de Pagamento</th>
+                    <th>Valor</th>
+                    <th>Nota</th>
+                    <th>Restaurar</th>
+                </tr>";
+            
+            
+            $index = 0;
+            while ($stmt->fetch()) {
+                printf("
+                    <tr>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>R$ %s</td>
+                        <td>%s</td>
+                        <td><a class = 'btn btn-outline-success btn-rounded'><i class='fas fa-trash-restore' id='dump' onclick='confirmation(%d)'></i></a></td>
+                    </tr>", 
+                $row[1], $row[2], $row[3], $row[4], $row[5], $row[6],$row[7],$row[8], $row[9],$row[0]);
+                $index++;
+            }
+            /*<a href='../index.php/?controle=venda&acao=excluirlavada&id=%d'><i class='fas fa-trash'></i></a>*/
+            
+            echo "</table>";
+            ?>
+            <script>
+                //---------------------ALERT----------------------------
+                // Pega o modal
+                var modal = document.getElementById("myModal");
+
+                // Pega o botão que abre o modal
+                //var btn = document.getElementById("dump");
+
+                // Função para abrir o modal
+                function confirmation(cod) {
+                    registro = cod;
+                    modal.style.display = "block";
+                }
+                // Função para o botão OK
+                function handleOk() {
+                    window.location.href = '../index.php/?controle=venda&acao=restaurarlavada&id='+registro; // Redireciona para home.php
+                }
+
+                // Função para o botão Cancel
+                function handleCancel() {
+                    modal.style.display = "none"; // Fecha o modal
+                }
+
+                // Fechar o modal se o usuário clicar fora dele
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+
+            </script>
+            <?php
+            $stmt->close();
+        }
+
+        public function restaurarlavadaDAO($id){
+            $conexao = new Conexao;
+            $conexao->conexao();
+            $query = "update venda_lavada set situacao = 1 where id_venda_lavada = ?;";
+            $stmt = $conexao->prepare($query);
+            $stmt->bind_param("i", $id);
+            if($stmt->execute()){
+                header("location: ../index.php/?controle=venda&acao=apagados");
+            }
             $stmt->close();
         }
 

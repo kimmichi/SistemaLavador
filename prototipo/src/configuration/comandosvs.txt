@@ -1,0 +1,15 @@
+CTRL + SHIFT + H: faz pesquisa em todos os arquivos da pasta e da opcao de alterar palavras chaves em todo o codigo
+CTRL + F: Faz pesquisa no arquivo que esta aberto
+CTRL + H: substitui palavras encontradas no CTRL + F.
+CTRL + F2: coloca um cursor em todas as palavras destacadas com o mouse e modifica
+CTRL + SHIFT + F: Faz pesquisa em todos os arquivos da pasta
+CTRL + SHIFT + L:Seleciona todas as ocorrências da palavra selecionada.
+Ctrl + / – Comenta ou descomenta a seleção atual.
+Shift + Alt + ↓ / ↑ Copiar linha para cima / baixo
+ 
+Ctrl + Shift + K Excluir linha
+
+
+
+CTRL + SHIFT + X: abre a barra de extensao
+Ctrl + G – Vai para uma linhas específica do arquivo.

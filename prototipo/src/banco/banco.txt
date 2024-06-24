@@ -111,6 +111,13 @@ inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.i
 inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
 inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo where situacao = 0 order by(id_venda_lavada);
 
+SELECT id_venda_lavada, ficha, placa, veiculo, lavada, empresa, nome, pagamento, valor, num_nota FROM venda_lavada
+                inner join usuario on usuario.id_usuario = venda_lavada.idusuario
+                inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
+                inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.idpreco
+                inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
+                inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo where situacao = 1  and dt_venda BETWEEN '2024-06-12 00:00:00' AND '2024-06-12 23:59:59' order by(ficha);
+
 select * from usuario where nome LIKE "%Sir%";
 SELECT * from venda_lavada;
 
@@ -121,9 +128,12 @@ select * from usuario ;
 select * from tabela_preco_lavada ;
 select ficha from venda_lavada order by id_venda_lavada desc limit 1;
 -- select max(ficha) from venda_lavada order by id_venda_lavada desc limit 13;
-update venda_lavada set situacao = 0 where id_venda_lavada = 2;
+update venda_lavada set situacao = 1 where id_venda_lavada >= 2;
 delete From venda_lavada where situacao = 1;
 update venda_lavada set situacao = 1 where id_venda_lavada = 2;
+
+select * from venda_lavada where situacao = 1  and dt_venda BETWEEN '2024-06-17 00:00:00' AND '2024-06-17 23:59:59' order by id_venda_lavada;
+UPDATE venda_lavada SET idusuario = 1  where id_venda_lavada > 0 and  situacao = 1 and dt_venda between '2024-06-17 00:00:00' AND '2024-06-17 23:59:59';
 
 UPDATE venda_lavada SET 
 ficha = 2, placa = 'deu certo', 

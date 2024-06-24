@@ -12,7 +12,7 @@ class VendaController {
                 break;
             case "cadastrovenda";
                 //------------------twig-------------------------- 
-                require_once 'testes/twig/vendor/autoload.php';
+                require_once 'configuration/composer/vendor/autoload.php';
                 $loader = new \Twig\Loader\FilesystemLoader('views');
                 $twig = new \Twig\Environment($loader, [
                     'cache' => '../template/cache',
@@ -26,7 +26,7 @@ class VendaController {
             case "listarvenda";
                 //include "template/menu.php";
                 //------------------twig-------------------------- 
-                require_once 'testes/twig/vendor/autoload.php';
+                require_once 'configuration/composer/vendor/autoload.php';
                 $loader = new \Twig\Loader\FilesystemLoader('views');
                 $twig = new \Twig\Environment($loader, [
                     'cache' => '../template/cache',
@@ -45,7 +45,7 @@ class VendaController {
                 break;
             case "edicaolavada";
                 //------------------twig-------------------------- 
-                require_once 'testes/twig/vendor/autoload.php';
+                require_once 'configuration/composer/vendor/autoload.php';
                 $loader = new \Twig\Loader\FilesystemLoader('views');
                 $twig = new \Twig\Environment($loader, [
                     'cache' => '../template/cache',
@@ -70,6 +70,28 @@ class VendaController {
             case "editarlavada";
                 $this->editarvendalavada($_POST);
                 break;
+            case "apagados";
+                //------------------twig-------------------------- 
+                require_once 'configuration/composer/vendor/autoload.php';
+                $loader = new \Twig\Loader\FilesystemLoader('views');
+                $twig = new \Twig\Environment($loader, [
+                    'cache' => '../template/cache',
+                    'cache' => false
+                ]);
+                $template = $twig->load("layout.html");
+                echo $template->render(array('NOME_USUARIO'=>$_SESSION['nome']));
+                // -----------------------------------------------
+                $this->listarapagadoslavada();
+                echo '            
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                </html>';
+                break;
+                case "restaurarlavada";
+                    $this->restaurarlavada($_GET['id']);
+                break;
 
         }
     }
@@ -84,6 +106,10 @@ class VendaController {
     public function listarvenda(){
         $venda = new VendaDAO;
         $venda->listarvendalavadaDAO();
+    }    
+    public function listarapagadoslavada(){
+        $venda = new VendaDAO;
+        $venda->listarapagadoslavadaDAO();
     }
 
     public function vendalavada($venda_lavada){
@@ -141,6 +167,12 @@ class VendaController {
             $venda->editarvendalavadaDAO();
             var_dump($venda_lavada);
         }
+    }
+    
+    public function restaurarlavada($id){
+        $excluir = new VendaDAO;
+        $excluir->restaurarlavadaDAO($id);
+
     }
         
 }
