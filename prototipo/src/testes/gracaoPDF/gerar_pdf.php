@@ -37,15 +37,15 @@ $html = '
         <center><img src="' . $src . '" alt="Exemplo de Imagem" width="70%">
         <br>
         <h3>Lava Jato Pratão</h3>
-        <h1 style = "padding: 20px 0px 20px 0px; font-size: 50px;">01</h1></center>
+        <h1 style = "padding: 20px 0px 20px 0px; font-size: 50px;">'.$_GET['ficha'] .'</h1></center>
         <table border=0 style="font-size: 13px; margin: 0px 0px 0px 10px;">
-            <tr><td>Veiculo: Caminhonete</td></tr>
-            <tr><td>Lavada: Completa c/ Cera</td></tr>
-            <tr><td>Empresa: Consumidor</td></tr>
-            <tr><td>Placa: XVG-0405</td></tr>
-            <tr><td>Pagamento: Cart Credito</td></tr>
+            <tr><td>Veiculo: '. $_GET['veiculo'] .'</td></tr>
+            <tr><td>Lavada: '. $_GET['lavada'] .'</td></tr>
+            <tr><td>Empresa: '. $_GET['empresa'] .'</td></tr>
+            <tr><td>Placa: '. $_GET['placa'] .'</td></tr>
+            <tr><td>Pagamento: '. $_GET['pagamento'] .'</td></tr>
         </table>
-        <div style = "position: absolute; right: 10px; bottom: 10px;"><b>Valor: R$ 50,00</b></div>
+        <div style = "position: absolute; right: 10px; bottom: 10px;"><b>Valor: R$ '. $_GET['valor'] .'</b></div>
         <br>
         <br>
         <br>

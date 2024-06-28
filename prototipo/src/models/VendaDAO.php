@@ -138,6 +138,7 @@
                 inner join tabela_preco_lavada on tabela_preco_lavada.id_preco = venda_lavada.idpreco
                 inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
                 inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo ORDER BY(ficha);";*/
+            date_default_timezone_set('America/Sao_Paulo');
             $dt_atual = date('Y/m/d');
             $query = "SELECT id_venda_lavada, ficha, placa, veiculo, lavada, empresa, nome, pagamento, valor, num_nota FROM venda_lavada
             INNER JOIN usuario ON usuario.id_usuario = venda_lavada.idusuario
@@ -173,14 +174,14 @@
                     <th>Editar</th>
                 </tr>";
             
-            
+            $urlPDF='../gracaoPDF/gerar_pdf.php';
             $index = 0;
             while ($stmt->fetch()) {
                 printf("
                 <form method='post' action='../index.php/?controle=venda&acao=editarnota'>
                     <tr>
                         <input type='hidden' name='idlavada' value='%d'>
-                        <td>%s</td>
+                        <td><a onclick='abrirNovoGuia(".'"%s"'.",".'"%s"'.",".'"%s"'.",".'"%s"'.",".'"%s"'.",".'"%s"'.",".'"%s"'.")'><i class='fas fa-print' id='dump'></i></a> %s</td>
                         <td>%s</td>
                         <td>%s</td>
                         <td>%s</td>
@@ -197,7 +198,7 @@
                         <td><a href='../index.php/?controle=venda&acao=edicaolavada&id=%d' class='btn btn-outline-info btn-rounded'><i class='fas fa-edit'></i></a></td>
                     </tr>
                 </form>", 
-                 $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6],$row[7],$row[8], $index, $index, $row[9],$row[0],$row[0]);
+                 $row[0], $row[1], $row[3], $row[4],$row[5],$row[2],$row[7],$row[8], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6],$row[7],$row[8], $index, $index, $row[9],$row[0],$row[0]);
                 $index++;
             }
             /*<a href='../index.php/?controle=venda&acao=excluirlavada&id=%d'><i class='fas fa-trash'></i></a>*/
@@ -206,6 +207,16 @@
             $stmt->close();
             ?>
             <script>
+                function abrirNovoGuia(ficha, veiculo,lavada,empresa,placa,pagamento,valor) {
+                    var raiz ='../testes/gracaoPDF/gerar_pdf.php';
+                    //var ficha = "1";
+                    //var veiculo = "2";
+                    var url = raiz+"?ficha="+ficha+"&veiculo="+veiculo+"&lavada="+lavada+"&empresa="+empresa+"&placa="+placa+"&pagamento="+pagamento+"&valor="+valor;
+                    // Abre o URL especificado em uma nova guia
+                    //window.location.href = '../index.php/?controle=venda&acao='; // Redireciona para home.php
+                    window.open(url, '_blank');
+                }
+
                 function habilitarDesabilitarInput(index) {
                     var input = document.getElementById('nota' + index);
                     input.disabled = !input.disabled;
