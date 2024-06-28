@@ -38,7 +38,7 @@ PRIMARY KEY (id_veiculo)
 INSERT INTO veiculo (id_veiculo, tipo_veiculo, veiculo) VALUE 
 (NULL, 1,"MOTO"),
 (NULL, 2,"CARRO"),
-(NULL, 3,"CAMINHOTE"),
+(NULL, 3,"CAMINHONETE"),
 (NULL, 1,"OUTROS");
 
 CREATE TABLE lavada (
@@ -76,6 +76,8 @@ INSERT INTO tabela_preco_lavada (id_preco, idlavada, idveiculo, preco) VALUES
 
 CREATE TABLE venda_lavada(
 id_venda_lavada INT NOT NULL AUTO_INCREMENT,
+dt_venda timestamp,
+situacao INT NOT NULL,
 ficha INT NOT NULL,
 placa VARCHAR(15) NOT NULL,
 empresa varchar(60) NOT NULL,
@@ -90,33 +92,61 @@ FOREIGN KEY (idpagamento) REFERENCES pagamento (id_pagamento),
 FOREIGN KEY (idpreco) REFERENCES tabela_preco_lavada (id_preco),
 PRIMARY KEY (id_venda_lavada, idusuario, idpagamento, idpreco)
 );
-INSERT INTO venda_lavada (id_venda_lavada, ficha, placa, empresa, valor, num_nota,descricao, idusuario, idpagamento, idpreco)
-VALUES (NULL,10, "ABC-8132", "FERNANDES AMADEU", 15.00,"283172",NULL,1,5,1);
+INSERT INTO venda_lavada (id_venda_lavada, situacao, ficha, placa, empresa, valor, num_nota,descricao, dt_venda, idusuario, idpagamento, idpreco)
+VALUES (NULL,1,1, "ABC-8132", "FERNANDES AMADEU", 15.00,"283172",NULL,NULL,1,5,1);
 
 SELECT nome, usuario, senha FROM usuario;
 SELECT id_usuario, usuario, senha FROM usuario 
 where usuario = "Sirlaine" and senha = "SENHA";
 -- ficha, placa, empresa, valor, num_nota, descricao, nome, pagamento,preco
-SELECT ficha, placa, empresa, valor, num_nota, descricao, nome, pagamento,preco FROM venda_lavada
+SELECT id_venda_lavada, ficha, placa, empresa, valor, num_nota, descricao, nome, pagamento,preco FROM venda_lavada
 inner join usuario on usuario.id_usuario = venda_lavada.idusuario
 inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
 inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.idpreco;
 
-SELECT ficha, placa, veiculo, lavada, empresa, valor, num_nota, nome, pagamento, preco FROM venda_lavada
+SELECT ficha, placa, veiculo, lavada, empresa, nome, pagamento, valor, num_nota FROM venda_lavada
 inner join usuario on usuario.id_usuario = venda_lavada.idusuario
 inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
 inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.idpreco
 inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
-inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo;
+inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo where situacao = 0 order by(id_venda_lavada);
+
+SELECT id_venda_lavada, ficha, placa, veiculo, lavada, empresa, nome, pagamento, valor, num_nota FROM venda_lavada
+                inner join usuario on usuario.id_usuario = venda_lavada.idusuario
+                inner join pagamento on pagamento.id_pagamento = venda_lavada.idpagamento
+                inner join tabela_preco_lavada on tabela_preco_lavada.id_preco =  venda_lavada.idpreco
+                inner join lavada on lavada.id_lavada = tabela_preco_lavada.idlavada
+                inner join veiculo on veiculo.id_veiculo = tabela_preco_lavada.idveiculo where situacao = 1  and dt_venda BETWEEN '2024-06-12 00:00:00' AND '2024-06-12 23:59:59' order by(ficha);
 
 select * from usuario where nome LIKE "%Sir%";
 SELECT * from venda_lavada;
 
 show tables;
-select * from venda_lavada ;
+select * from venda_lavada	 ;
 select * from pagamento ;
 select * from usuario ;
 select * from tabela_preco_lavada ;
+select ficha from venda_lavada order by id_venda_lavada desc limit 1;
+-- select max(ficha) from venda_lavada order by id_venda_lavada desc limit 13;
+update venda_lavada set situacao = 1 where id_venda_lavada >= 2;
+delete From venda_lavada where id_venda_lavada > 0 and situacao = 0;
+update venda_lavada set situacao = 1 where id_venda_lavada = 2;
 
+select * from venda_lavada where situacao = 1  and dt_venda BETWEEN '2024-06-17 00:00:00' AND '2024-06-17 23:59:59' order by id_venda_lavada;
+UPDATE venda_lavada SET idusuario = 1  where id_venda_lavada > 0 and  situacao = 1 and dt_venda between '2024-06-17 00:00:00' AND '2024-06-17 23:59:59';
+
+UPDATE venda_lavada SET 
+ficha = 2, placa = 'deu certo', 
+empresa = 'teckwiser', valor=100.00, 
+num_nota = '00000', descricao = 'esse teste deu certo', 
+idpagamento = '1'
+WHERE id_venda_lavada = 3;
+
+UPDATE venda_lavada SET 
+            ficha = 2, placa = 'deu certo', 
+            empresa = 'teckwiser', valor=100.00, 
+            num_nota = '00000', descricao = 'esse teste deu certo', 
+            idpagamento = '1'
+            WHERE id_venda_lavada = 4;
 -- delete from veiculo where  id_veiculo = 4;
 -- DROP DATABASE sistemalavador;

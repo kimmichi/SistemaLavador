@@ -22,7 +22,8 @@ if (!file_exists($path)) {
 // Codificar a imagem em base64
 $imageData = base64_encode(file_get_contents($path));
 $src = 'data:image/jpeg;base64,' . $imageData;
-
+date_default_timezone_set('America/Sao_Paulo');
+$dt_atual= date('d/m/Y h:i');
 // Conteúdo HTML
 $html = '
 <!DOCTYPE html>
@@ -37,8 +38,9 @@ $html = '
         <center><img src="' . $src . '" alt="Exemplo de Imagem" width="70%">
         <br>
         <h3>Lava Jato Pratão</h3>
-        <h1 style = "padding: 20px 0px 20px 0px; font-size: 50px;">'.$_GET['ficha'] .'</h1></center>
+        <h1 style = "padding: 20px 0px 15px 0px; font-size: 50px;">'.$_GET['ficha'] .'</h1></center>
         <table border=0 style="font-size: 13px; margin: 0px 0px 0px 10px;">
+            <tr><td colspan ="2" style="text-align: right;">'.$dt_atual.'</td></tr>
             <tr><td>Veiculo: '. $_GET['veiculo'] .'</td></tr>
             <tr><td>Lavada: '. $_GET['lavada'] .'</td></tr>
             <tr><td>Empresa: '. $_GET['empresa'] .'</td></tr>

@@ -129,7 +129,7 @@ select * from tabela_preco_lavada ;
 select ficha from venda_lavada order by id_venda_lavada desc limit 1;
 -- select max(ficha) from venda_lavada order by id_venda_lavada desc limit 13;
 update venda_lavada set situacao = 1 where id_venda_lavada >= 2;
-delete From venda_lavada where situacao = 1;
+delete From venda_lavada where id_venda_lavada > 0 and situacao = 0;
 update venda_lavada set situacao = 1 where id_venda_lavada = 2;
 
 select * from venda_lavada where situacao = 1  and dt_venda BETWEEN '2024-06-17 00:00:00' AND '2024-06-17 23:59:59' order by id_venda_lavada;
